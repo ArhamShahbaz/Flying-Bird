@@ -1,40 +1,35 @@
-class Raven{
-    constructor(ctx , position, speed, gameStats){
+class Explosion{
+    constructor(ctx , position){
         this.ctx=ctx;
         this.img=new Image();
-        this.img.src="raven.png";
-        this.gameStats=gameStats;
+        this.img.src="boom.png";
+        this.audio = new Audio();
+        this.audio.src= "explosion.mp3";
         this.position=position;
-        this.width=271;
-        this.height=194;
-        this.frame =0;
-        this.frameInterval = 4;
-        this.frameCount=0;
+        this.width=200;
+        this.height=180;
+
         this.spriteWidth= this.width * 0.5;
         this.spriteHeight= this.height * 0.5;
         this.markForDeletion=false;
-        this.speed=speed;
+        this.position.x -= this.spriteWidth;
+        this.position.y -= this.spriteHeight;
+        this.frame = 0;
+        this.frameInterval = 4;
+        this.frameCount=0;
     }
     update(){
-        if(this.position.x <=0 ){
-            this.gameStats.gameOver = true;
-        }
+        this.audio.play();
         if(this.frame>4){
-            this.frame=0;
+            this.markForDeletion=true;
         }else{
             if(this.frameCount>this.frameInterval){
                 this.frame++;
-                this.position.x -= this.speed + 5;
-                this.frameCount=0;
             }else{
                 this.frameCount++;
             }
 
         }
-        if(this.position.x <= -this.spriteWidth){
-            this.markForDeletion=true;
-        }
-
         this.#draw();
 
     }
@@ -46,4 +41,4 @@ class Raven{
 
     }
 
-} export default Raven;
+} export default Explosion;
